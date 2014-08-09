@@ -59,7 +59,5 @@ public class SelectionSort {
 		} else {
 			System.out.println("Your program run successful");
 		}
-		
-		
 	}
 }
