@@ -114,9 +114,9 @@ public class LoadPlaylist {
 	public static void main(String[] args) {
 		String proxyHost = System.getProperty("http.proxyHost");
 		
-		System.setProperty("http.proxyHost", "hcm-proxy");
-		System.setProperty("http.proxyPort", "8080");
-		//System.setProperty("java.net.useSystemProxies", "true");
+		//System.setProperty("http.proxyHost", "hcm-proxy");
+		//System.setProperty("http.proxyPort", "8080");
+		System.setProperty("java.net.useSystemProxies", "true");
 		
 		LoadPlaylist loader = new LoadPlaylist();
 		loader.LoadListUrls();
