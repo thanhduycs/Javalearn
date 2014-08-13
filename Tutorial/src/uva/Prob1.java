@@ -1,5 +1,9 @@
 package uva;
 
+import java.util.Stack;
+
+import javax.rmi.CORBA.Util;
+
 public class Prob1 {
 	
 	public static int cal3n1(int x)
@@ -24,6 +28,8 @@ public class Prob1 {
 	}
 
 	public static void main(String[] args) {
+		
+		Stack<String> n;
 		
 		int begin = Integer.parseInt(args[0]);
 		int end = Integer.parseInt(args[1]);
