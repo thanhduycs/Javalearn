@@ -1,6 +1,6 @@
 package progpearls.chap2;
 
-public class Problem3Rostate {
+public class P2Rostate {
 	
 	public void print(char[] array)
 	{
@@ -30,7 +30,7 @@ public class Problem3Rostate {
 		// TODO Auto-generated method stub
 		
 		String in = "abcdefgh";
-		new Problem3Rostate().solve(in.toCharArray(), 3);
+		new P2Rostate().solve(in.toCharArray(), 3);
 	}
 
 }
