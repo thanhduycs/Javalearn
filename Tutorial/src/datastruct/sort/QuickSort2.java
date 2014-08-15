@@ -68,7 +68,6 @@ public class QuickSort2 extends Sorter {
 		// array = new int[]{3,2,1};
 		sorter.sort(array);
 
-		int c = 0;
 		int reverify = print(array);
 		verifyInOrder(array);
 
