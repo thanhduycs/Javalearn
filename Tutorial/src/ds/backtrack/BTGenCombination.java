@@ -36,7 +36,7 @@ public class BTGenCombination extends BTGenerator {
 	
 	@Test
 	public void testCase1() throws Exception {
-		generateCombination(9, 6);
+		generateCombination(6, 4);
 		System.out.println(count);
 	}
 }

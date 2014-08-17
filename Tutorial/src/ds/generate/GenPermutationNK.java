@@ -26,6 +26,6 @@ public class GenPermutationNK extends Generator {
 	}
 
 	public static void main(String[] args) {
-		new GenPermutationNK().gen(5, 3);
+		new GenPermutationNK().gen(6, 4);
 	}
 }
