@@ -88,16 +88,14 @@ public class LoadZingRadio {
 				strTitle = strTitle.replaceAll("^So ", "Ky");
 				strTitle = strTitle.replaceAll(":\\s*", ".");
 				strTitle = strTitle.replaceAll("\\s+", "-");
-				this.lastListUrls.add(new String[] { 
-						String.valueOf(i),
-						strTitle, 
-						strSource 
-						});
+				this.lastListUrls.add(new String[] { String.valueOf(i),
+						strTitle, strSource });
 				System.out.println(strTitle);
+				System.out.println(strSource);
 			}
 		}
 	}
-	
+
 	public void saveUrl(final String filename, final String urlString)
 			throws MalformedURLException, IOException {
 		BufferedInputStream in = null;
@@ -106,10 +104,16 @@ public class LoadZingRadio {
 			in = new BufferedInputStream(new URL(urlString).openStream());
 			fout = new FileOutputStream(filename);
 
+			int kb = 0;
+
 			final byte data[] = new byte[1024];
 			int count;
 			while ((count = in.read(data, 0, 1024)) != -1) {
 				fout.write(data, 0, count);
+				if (++kb % 100 == 0)
+					System.out.print(".");
+				if (kb % 2000 == 0)
+					System.out.println();
 			}
 		} finally {
 			if (in != null) {
@@ -121,8 +125,8 @@ public class LoadZingRadio {
 		}
 	}
 
-	public void saveUrlIfNotExist(final String filename, final String urlString) throws MalformedURLException,
-			IOException {
+	public void saveUrlIfNotExist(final String filename, final String urlString)
+			throws MalformedURLException, IOException {
 		File newFile = new File(filename);
 		boolean flag = newFile.exists();
 		if (!flag) {
@@ -131,11 +135,11 @@ public class LoadZingRadio {
 	}
 
 	private void downloadAll() throws MalformedURLException, IOException {
-		for (String[] toks : this.lastListUrls)
-		{
+		for (String[] toks : this.lastListUrls) {
 			String strTitle = toks[1];
-			String strSource =  toks[2];
-			String fileName = String.format("%s/%s.mp3", this.mp3Path, strTitle);
+			String strSource = toks[2];
+			String fileName = String
+					.format("%s/%s.mp3", this.mp3Path, strTitle);
 			saveUrlIfNotExist(fileName, strSource);
 		}
 	}
