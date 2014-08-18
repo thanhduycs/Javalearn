@@ -7,7 +7,7 @@ import java.io.ObjectInputStream.GetField;
 import org.junit.Test;
 
 public class P3Anagram {
-	
+
 	public boolean debugMode = false;
 
 	public static String join(int[] arr) {
@@ -20,93 +20,58 @@ public class P3Anagram {
 		return buidler.toString();
 	}
 
-	static int count = 1;
-
-	public void reArrange(int[] arr, int base, int end) {
-		System.out.println(count++ + ". " + join(arr));
-		int last = arr[end];
-		int i = 0;
-		for (i = end - 1; i >= 0 && (arr[i + 1] < arr[i] || arr[i] > last); i--) {
-			arr[i + 1] = arr[i];
-		}
-
-		// System.out.println(join(arr));
-		// System.out.println(i);
-
-		if (i > 0) {
-			arr[i + 1] = arr[i];
-			arr[i] = last;
-			// System.out.println(join(arr));
-			reArrange(arr, base, end);
-		}
-	}
-
-	public void reArrange(int[] arr) {
-		reArrange(arr, arr.length - 1, arr.length - 1);
-	}
-
 	private void swap(int[] arr, int a, int b) {
 		int temp = arr[a];
 		arr[a] = arr[b];
 		arr[b] = temp;
 	}
 
-	public int[] nextNum(int[] orgNum) {
-		int[] arr = new int[orgNum.length];
-		System.arraycopy(orgNum, 0, arr, 0, orgNum.length);
+	public boolean nextNum(int[] arr) {
 
-		int LENGTH = arr.length;
-		int last = arr[LENGTH - 1];
-		int i = LENGTH - 1;
-		while (arr[i - 1] > arr[i] && i > 1) {
-			arr[i] = arr[i-1];
+		int i = arr.length - 1;
+		while (i > 0 && arr[i] < arr[i - 1]) {
 			i--;
 		}
+		i--;
 
-		if (i <= 0) {
-			return null;
+		if (i < 0) {
+			return false;
 		}
 
-		// [i-1] < [i]
+		int l = arr.length - 1;
+		while (arr[l] < arr[i])
+			l--;
 
-//		int a = i;
-//		int b = LENGTH - 2;
-//
-//		while (a < b) {
-//			swap(arr, a, b);
-//			a++;
-//			b--;
-//		}
+		swap(arr, i, l);
 
-		// int k = i;
-		// while (k < LENGTH-1) {
-		// arr[k+1] = arr[k];
-		// }
-		
-		//swap(arr, i, i-1);
-		//arr[i] = last;
-		if (debugMode)
-		{
-			System.out.printf("i=%d, length=%d\n", i, LENGTH);
+		i++;
+		l = arr.length - 1;
+		while (i < l) {
+			swap(arr, i, l);
+			i++;
+			l--;
 		}
-		return arr;
+		return true;
 	}
 
 	public static void main(String[] args) {
+		int[] numArr = new int[] { 1, 2, 3, 4 };
 
-		int[] numArr = new int[] { 0, 6, 5, 4, 3, 2, 1 };
-
-		numArr = new int[] { 1, 2, 3, 4, 5 };
-		//numArr = new int[] { 1, 2, 4, 5, 3 };
-
-		int[] nextNumArr = numArr;
-		System.out.println(" Current: " + join(numArr));
+		final String text = "pots";
+		numArr = new int[text.length()];
+		for (int i = 0; i < numArr.length; i++)
+			numArr[i] = i;
 
 		P3Anagram anagram = new P3Anagram();
-		for (int i = 0; nextNumArr != null; i++) {
-			numArr = nextNumArr;
-			nextNumArr = anagram.nextNum(numArr);
-			System.out.println(i + "   Next: " + join(nextNumArr));
+
+		boolean hashNext = true;
+		for (int i = 0; hashNext; i++) {
+			for (int j = 0; j < numArr.length; j++) {
+				System.out.print(text.charAt(numArr[j]));
+			}
+			System.out.println();
+			hashNext = anagram.nextNum(numArr);
+			// System.out.println(i + "   Next: " + join(numArr));
 		}
 	}
 
@@ -140,18 +105,18 @@ public class P3Anagram {
 	public void testCase2() throws Exception {
 		P3Anagram anagram = new P3Anagram();
 		int[] numArr = null;
-		int[] expectArr = null;
+		int[] expArr = null;
 		numArr = new int[] { 1, 2, 4, 5, 3 };
-		expectArr = new int[] { 1, 3, 2, 4, 5 };
+		expArr = new int[] { 1, 2, 5, 3, 4 };
 
-		int[] nextNumArr = anagram.nextNum(numArr);
-		nextNumArr = anagram.nextNum(numArr);
+		int[] nextNumArr = numArr.clone();
+		anagram.nextNum(nextNumArr);
 		System.out.println(" Current: " + join(numArr));
 		System.out.println("    Next: " + join(nextNumArr));
-
-		assertArrayEquals(expectArr, nextNumArr);
+		System.out.println("    Expc: " + join(expArr));
+		assertArrayEquals(expArr, nextNumArr);
 	}
-	
+
 	@Test
 	public void testCase3() throws Exception {
 		P3Anagram anagram = new P3Anagram();
@@ -161,8 +126,8 @@ public class P3Anagram {
 		numArr = new int[] { 2, 3, 4, 5, 1 };
 		expArr = new int[] { 2, 3, 5, 1, 4 };
 
-		int[] nextNumArr = anagram.nextNum(numArr);
-		nextNumArr = anagram.nextNum(numArr);
+		int[] nextNumArr = numArr.clone();
+		anagram.nextNum(nextNumArr);
 		System.out.println(" Current: " + join(numArr));
 		System.out.println("    Next: " + join(nextNumArr));
 		System.out.println("    Expc: " + join(expArr));
