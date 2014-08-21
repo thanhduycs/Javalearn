@@ -1,9 +1,7 @@
 package codility.chap9;
 
-import static org.junit.Assert.*;
-
+//https://codility.com/demo/results/demo7N8AHU-HAN/
 import org.junit.Test;
-
 
 public class CountSemiprimes {
 	public void printArr(int[] A, String caption) {
@@ -17,13 +15,39 @@ public class CountSemiprimes {
 	}
 
 	public int[] solution(int N, int[] P, int[] Q) {
+		boolean[] isPrimes = new boolean[N + 1];
 		int[] counters = new int[N + 1];
-		int i = 2;
+		int i;
+
+		i = 0;
 		while (i <= N) {
-			int k = i;
-			while (k <= N) {
-				counters[k]++;
+			isPrimes[i] = true;
+			i++;
+		}
+
+		i = 2;
+		while (i <= N) {
+			int k = i * i;
+			while (k <= N && k >= 0) {
+				isPrimes[k] = false;
 				k += i;
+			}
+			i++;
+		}
+
+		i = 2;
+		while (i <= N) {
+			if (!isPrimes[i]) {
+				i++;
+				continue;
+			}
+			int k = i * i; // k = i * c
+			int c = i;
+			while (k <= N && k >= 0) {
+				if (isPrimes[c])
+					counters[k]++;
+				k += i;
+				c++;
 			}
 			i++;
 		}
@@ -33,33 +57,44 @@ public class CountSemiprimes {
 		int count = 0;
 		while (i <= N) {
 			if (counters[i] == 1) {
-				System.out.print(i + ", ");
 				count++;
 			}
 			prefix_sum[i] = count;
 			i++;
 		}
-		System.out.println();
 
-		printArr(counters,   "counter   ");
-		printArr(prefix_sum, "prefix_sum");
+		// int[] indexes = new int[N];
+		// for (int y = 0; y < N; y++)
+		// {
+		// indexes[y] = y;
+		// }
+		// printArr(indexes, "indexes   ");
+		// printArr(counters, "counter   ");
+		// printArr(prefix_sum, "prefix_sum");
 
 		int[] results = new int[P.length];
 		i = 0;
 		while (i < P.length) {
 			int a = P[i] - 1;
 			int b = Q[i];
-			results[i] = prefix_sum[b] - prefix_sum[a];
+			if (a < 0)
+				results[i] = prefix_sum[b];
+			else
+				results[i] = prefix_sum[b] - prefix_sum[a];
 			i++;
 		}
-		printArr(results, "results");
+		// printArr(results, "results");
 		return results;
 	}
 	
+	public static void main(String[] args) {
+		
+	}
+
 	@Test
 	public void testCase1() throws Exception {
-		int [] P = {1,  4};
-		int [] Q = {26, 10};
+		int[] P = { 1, 4 };
+		int[] Q = { 26, 10 };
 		solution(26, P, Q);
 	}
 }
