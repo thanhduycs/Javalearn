@@ -1,6 +1,16 @@
 package codility.chap10;
 
 public class TheoryGCDEuclidean {
+	public static int gcdBySubStraction(int a, int b)
+	{
+		if (a == b)
+			return a;
+		if (a > b)
+			return gcdBySubStraction(a-b, b);
+		else 
+			return gcdBySubStraction(a, b-a);
+	}
+	
 	public static int gcdByDivision(int a, int b)
 	{
 		if (a % b == 0)
@@ -11,6 +21,7 @@ public class TheoryGCDEuclidean {
 	//Binary Euclidean algorithm
 	public static int gcdByBinary(int a, int b, int res)
 	{
+		// k = a % b; do until k == 0;
 		if (a == b)
 			return res * a;
 		if (a % 2 == 0 && b % 2 == 0)
