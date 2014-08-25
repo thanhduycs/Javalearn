@@ -17,41 +17,36 @@ public class MaxDoubleSlideSolution {
 		System.out.println(A[A.length-1] + "}");
 	}
 	
-	public int solution(int[] A)
-	{
-		int [] lefts = new int [A.length];
-        int [] rights = new int[A.length];
-        
-//        printArr(A);
-        
-        //calucalte for left ->
+    public int solution(int[] A) {
+        int[] lefts = new int[A.length];
+        int[] rights = new int[A.length];
+
+        // printArr(A);
+
+        // calucalte for left ->
         int max_ending = 0;
-        for(int i=1; i<A.length-1; i++)
-        {
-            max_ending = Math.max(max_ending,0) + A[i];
-            lefts[i] = Math.max(max_ending,0)
-            		;
+        for (int i = 1; i < A.length - 1; i++) {
+            max_ending = Math.max(max_ending, 0) + A[i];
+            lefts[i] = Math.max(max_ending, 0);
         }
-        //printArr(lefts);
-        
-        //right <-
-        max_ending= 0;
-        for(int i=A.length-2; i>1; i--)
-        {
-            max_ending = Math.max(max_ending,0) + A[i];
-            rights[i] = Math.max(max_ending,0);
+        // printArr(lefts);
+
+        // right <-
+        max_ending = 0;
+        for (int i = A.length - 2; i > 1; i--) {
+            max_ending = Math.max(max_ending, 0) + A[i];
+            rights[i] = Math.max(max_ending, 0);
         }
-        //printArr(rights);
-        
+        // printArr(rights);
+
         int max_slide = 0;
-        for(int i=0; i<A.length-2; i++)
-        {
-            int t = lefts[i] + rights[i+2];
+        for (int i = 0; i < A.length - 2; i++) {
+            int t = lefts[i] + rights[i + 2];
             max_slide = Math.max(max_slide, t);
-            //System.out.println(i + "->" + t);
+            // System.out.println(i + "->" + t);
         }
         return max_slide;
-	}
+    }
 	
 	@Test
 	public void testCase1() throws Exception {
