@@ -24,9 +24,18 @@ public class CommonPrimeDivisors {
 	public int solution(int[] A, int[] B) {
 	    //X = (X + M) modulo N
 	    
-	    for (int i = 0; i < A.length &&  i < 1; i++) {
-			int gcd = gcdByBinary(A[i], B[i], 1);
-			System.out.println(gcd);
+	    for (int i = 0; i < A.length; i++) {
+	        int a = A[i];
+	        int b = B[i];
+			int gcd = gcdByBinary(a, b, 1);
+			if (gcd > 1)
+			{
+			    a = a / gcd;
+			    b = b / gcd;
+			    
+			    gcd = gcdByBinary(a, b, 1);
+			}
+			System.out.printf("%d, %d => %d\n", a, b, gcd);
 		}
 		
 		
@@ -35,8 +44,8 @@ public class CommonPrimeDivisors {
 
 	@Test
 	public void testCase1() throws Exception {
-		int A[] = { 15, 10, 9 };
-		int B[] = { 75, 30, 5 };
+		int A[] = { 15, 15, 10, 9 };
+		int B[] = { 75*5, 75, 300, 5 };
 		solution(A, B);
 	}
 }
