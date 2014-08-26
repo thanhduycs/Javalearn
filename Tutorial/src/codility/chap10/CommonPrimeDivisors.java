@@ -22,10 +22,14 @@ public class CommonPrimeDivisors {
 	}
 
 	public int solution(int[] A, int[] B) {
-		for (int i = 0; i < A.length &&  i < 1; i++) {
+	    //X = (X + M) modulo N
+	    
+	    for (int i = 0; i < A.length &&  i < 1; i++) {
 			int gcd = gcdByBinary(A[i], B[i], 1);
 			System.out.println(gcd);
 		}
+		
+		
 		return 0;
 	}
 
