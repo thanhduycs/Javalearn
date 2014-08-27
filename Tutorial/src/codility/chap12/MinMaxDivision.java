@@ -1,3 +1,5 @@
+//https://codility.com/demo/results/demoBEJR29-KTR/
+
 package codility.chap12;
 
 import static org.junit.Assert.*;
@@ -16,41 +18,50 @@ public class MinMaxDivision {
         }
         System.out.println(A[A.length - 1] + "}");
     }
+    
+    private boolean verifySolution(int K, int[] A, final int cost) {
+        int count = 1;
+        int value = 0;
 
-    private int solv(int K, int M, int[] A, int[] results, int begin, int end) {
-        System.out.printf("(%d, %d)\n", begin, end);
+        for (int i = 0; i < A.length; i++) {
+            if (A[i] > cost)
+                return false;
+
+            if (value + A[i] <= cost) {
+                value += A[i];
+            } else {
+                value = A[i];
+                count++;
+                if (count > K)
+                    return false;
+            }
+        }
+        return true;
+    }
+
+    public int binarySearchSolution(int K, int[] A, int begin, int end) {
         if (end - begin < 2) {
-            return A[begin];
+            if(verifySolution(K, A, begin))
+                return begin;
+            return end;
         }
-        int mid = (end + begin) / 2;
-        int left = solv(K, M, A, results, begin, mid);
-        int right = solv(K, M, A, results, mid + 1, end);
-        System.out.printf("  ===> (%d, %d) : %d, %d\n", begin, end, left, right);
-
-        if (left <= right) {
-            // +left
-            left = left + A[mid];
+        int middle = (begin + end) / 2;
+        if (verifySolution(K, A, middle)) {
+            return binarySearchSolution(K, A, begin, middle);
         } else {
-            right = right + A[mid];
+            return binarySearchSolution(K, A, middle, end);
         }
-        return right;
     }
 
     public int solution(int K, int M, int[] A) {
-        int[] prefix_sum = new int[A.length];
-        prefix_sum[0] = A[0];
-        for (int i = 1; i < A.length; i++) {
-            prefix_sum[i] = prefix_sum[i - 1] + A[i];
+        int one = 0;
+        for (int i = 0; i < A.length; i++) {
+            one += A[i];
         }
 
-        printArr(A, "Array:      ");
-        // printArr(prefix_sum, "Prefix_Sum: ");
-
-        int[] results = new int[2];
-        results[0] = -1;
-        results[1] = Integer.MAX_VALUE;
-        solv(K, M, A, results, 0, A.length);
-        return results[1];
+        int idealCase = (int) (one / K);
+        int result = binarySearchSolution(K, A, idealCase, one);
+        return result;
     }
 
     @Test

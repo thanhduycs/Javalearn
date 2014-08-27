@@ -54,7 +54,7 @@ public class PrimeNumberHelper {
 
 	public static void main(String[] args) {
 		int nextPrime = 1;
-		for (int i = 0; i < 100; i++) {
+		for (int i = 0; i < 10000; i++) {
 			nextPrime = next(nextPrime);
 			System.out.print(nextPrime + ", ");
 		}
