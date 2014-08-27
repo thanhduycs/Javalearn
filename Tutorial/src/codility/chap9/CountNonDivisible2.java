@@ -18,30 +18,14 @@ public class CountNonDivisible2 {
 	}
 
 	public int[] solution(int[] A) {
-		printArr(A, "inputArr:");
+		int[] arrays = new int[2*A.length + 1];
+		for (int i = 0; i < A.length; i++) {
+		    arrays[A[i]]++;
+        }
 		
-		int NN = A.length * 2 + 1;
-		int[] divisorCounters = new int[NN];
-		int i = 0;
-		while (i < A.length) {
-			int element = A[i];
-			int k = element;
-			while (k < NN) {
-				divisorCounters[k]++;
-				k += element;
-			}
-			printArr(divisorCounters, "divisorCounters:");
-			i++;
-		}
+		printArr(arrays, "arrays");
 
 		int[] results = new int[A.length];
-		i = 0;
-		while (i < A.length) {
-			int element = A[i];
-			results[i] = A.length - divisorCounters[element];
-			i++;
-		}
-		// printArr(results, "steves:");
 		return results;
 	}
 
