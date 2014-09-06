@@ -10,7 +10,9 @@ import java.awt.event.*;
  * @author SONY VAIO
  */
 public class PuzzlePanel extends JPanel implements MouseListener, Runnable {
-	public final int SQUARE_SIZE = 100;
+    private static final long serialVersionUID = 3210123332766468863L;
+    
+    public final int SQUARE_SIZE = 100;
 	public final int SPACE_SIZE = 5;
 
 	public final int A_SEARCH = 1;

@@ -1,7 +1,5 @@
 package codility.chap13;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
 
 public class AbsDistinct {

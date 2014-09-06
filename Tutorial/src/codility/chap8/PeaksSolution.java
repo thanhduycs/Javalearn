@@ -1,9 +1,9 @@
 package codility.chap8;
 
 //https://codility.com/demo/results/demoM98FYD-8FR/
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-import java.util.*;
+import java.util.Arrays;
 
 import org.junit.Test;
 
@@ -76,12 +76,6 @@ public class PeaksSolution {
                 count++;
             prefix_sum[i] = count;
             // System.out.printf("[%c]", b ? '*' : ' ');
-        }
-        // System.out.println();
-
-        for (int i = 0; i < prefix_sum.length; i++) {
-            int j = prefix_sum[i];
-            // System.out.printf("[%d]", j);
         }
         // System.out.println();
 

@@ -1,6 +1,5 @@
 package codility.chap8;
 
-import java.util.Arrays;
 
 public class FlagsSolution {
     public void printArr(int[] A, String caption) {

@@ -13,6 +13,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -21,8 +22,10 @@ import javax.swing.JPanel;
  *
  * @author SONY VAIO
  */
+@SuppressWarnings("deprecation")
 public class SodokuGUI extends JPanel implements MouseListener, KeyListener {
-
+    private static final long serialVersionUID = 4986742765978081256L;
+    
     public static final int CELL_SIZE = 40;
     public static final int CELL_SPACE = 2;
     public static final String [] COLOR_CODE = {"#FF0000", "#00FFFF", "#0000FF", "#0000A0",

@@ -1,7 +1,5 @@
 package ds.generate;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
 
 public class GenCombinations extends Generator {
