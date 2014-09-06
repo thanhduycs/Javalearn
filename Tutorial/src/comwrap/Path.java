@@ -1,4 +1,4 @@
-package httpcom;
+package comwrap;
 
 public class Path {
     public static String getDesktotPath(String childDir){

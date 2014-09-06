@@ -1,4 +1,4 @@
-package httpcom;
+package comwrap;
 
 import java.util.HashMap;
 
@@ -6,7 +6,7 @@ import org.w3c.dom.Element;
 
 public class Text {
     public static String removeVIE(String strVie) {
-        final String SPECIAL_CHARACTERS = "àÀảẢãÃáÁạẠăĂằẰẳẲẵẴắẮặẶâÂầẦẩẨẫẪấẤậẬđĐèÈẻẺẽẼéÉẹẸêÊềỀểỂễỄếẾệỆìÌỉỈĩĨíÍịỊòÒỏỎõÕóÓọỌôÔồỒổỔỗỖốỐộỘơƠờỜởỞỡỠớỚợỢùÙủỦũŨúÚụỤưƯừỪửỬữỮứỨựỰýÝỳỲỷỶỹỸỵỴ";
+        final String SPECIAL_CHARACTERS = "àÀảẢãÃá�?ạẠăĂằẰẳẲẵẴắẮặẶâÂầẦẩẨẫẪấẤậẬđ�?èÈẻẺẽẼéÉẹẸêÊ�?ỀểỂễỄếẾệỆìÌỉỈĩĨí�?ịỊòÒ�?ỎõÕóÓ�?ỌôÔồỒổỔỗỖố�?ộỘơƠ�?ỜởỞỡỠớỚợỢùÙủỦũŨúÚụỤưƯừỪửỬữỮứỨựỰý�?ỳỲỷỶỹỸỵỴ";
         final String REPLACEMENTS = "aAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAdDeEeEeEeEeEeEeEeEeEeEeEiIiIiIiIiIoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOuUuUuUuUuUuUuUuUuUuUuUyYyYyYyYyYyY";
 
         HashMap<Character, Character> hashMap = new HashMap<Character, Character>(

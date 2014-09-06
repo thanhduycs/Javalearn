@@ -46,10 +46,10 @@ public class LoadNhacCuaTui {
         for (int i = 0; i < nodes.getLength(); i++) {
             Element elm = (Element) nodes.item(i);
             song = new Song();
-            song.url = httpcom.Text.XMLGetTextValue(elm, "location").trim();
-            song.name = httpcom.Text.capitalize(
-                    httpcom.Text.XMLGetTextValue(elm, "title").trim());
-            song.singer = httpcom.Text.XMLGetTextValue(elm, "creator").trim();
+            song.url = comwrap.Text.XMLGetTextValue(elm, "location").trim();
+            song.name = comwrap.Text.capitalize(
+                    comwrap.Text.XMLGetTextValue(elm, "title").trim());
+            song.singer = comwrap.Text.XMLGetTextValue(elm, "creator").trim();
             if ("Đang Cập Nhật".compareToIgnoreCase(song.singer) != 0) {
                 song.name += "--" + song.singer;
             }
@@ -112,7 +112,7 @@ public class LoadNhacCuaTui {
 
         LoadNhacCuaTui loader = new LoadNhacCuaTui();
         loader.setXmlURL("http://www.nhaccuatui.com/flash/xml?key2=d2d6669643222a091b653997f7056b1f");
-        loader.setDownloadPath(httpcom.Path.getDesktotPath("nct"));
+        loader.setDownloadPath(comwrap.Path.getDesktotPath("nct"));
         loader.parseXML();
         loader.dowload();
     }

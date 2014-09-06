@@ -89,7 +89,7 @@ public class LoadNhacSo {
             double begin_time = System.currentTimeMillis();
             System.out.printf(">>>>>Fetch: %s\n", songPath);
             System.out.printf("     %s\n", song.url);
-            httpcom.Http.saveUrlSafeIfNotExist(songPath, song.url);
+            comwrap.Http.saveUrlSafeIfNotExist(songPath, song.url);
             double end_time = System.currentTimeMillis();
             System.out.printf("  done! %.2f minutes\n",
                     (end_time - begin_time) / 60000.0);
@@ -110,7 +110,7 @@ public class LoadNhacSo {
         
         LoadNhacSo lns = new LoadNhacSo();
         lns.setURL("http://nhacso.net/flash/playlist/xnl/1/uid/X1pXVUNXbQAGAA==,WlpQUUNe,Xg==,1409973506&adsLink=http%3A%2F%2F180.148.142.153%2FCpx.aspx%3Fs%3D39%26r%3D0%26c%3D8%26p%3D604%26n%3D22806581467%26f%3D0%26fm%3D1&typePlayer=playlist&mAuto=true");
-        lns.setDownloadPath(httpcom.Path.getDesktotPath("nhacso"));
+        lns.setDownloadPath(comwrap.Path.getDesktotPath("nhacso"));
         lns.run();
     }
 

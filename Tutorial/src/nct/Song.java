@@ -7,7 +7,7 @@ public class Song {
 
     public String getTruncSongName() {
         String name = this.name.trim();
-        name = httpcom.Text.removeVIE(name);
+        name = comwrap.Text.removeVIE(name);
         return name;
     }
 }
