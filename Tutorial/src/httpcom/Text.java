@@ -2,6 +2,8 @@ package httpcom;
 
 import java.util.HashMap;
 
+import org.w3c.dom.Element;
+
 public class Text {
     public static String removeVIE(String strVie) {
         final String SPECIAL_CHARACTERS = "àÀảẢãÃáÁạẠăĂằẰẳẲẵẴắẮặẶâÂầẦẩẨẫẪấẤậẬđĐèÈẻẺẽẼéÉẹẸêÊềỀểỂễỄếẾệỆìÌỉỈĩĨíÍịỊòÒỏỎõÕóÓọỌôÔồỒổỔỗỖốỐộỘơƠờỜởỞỡỠớỚợỢùÙủỦũŨúÚụỤưƯừỪửỬữỮứỨựỰýÝỳỲỷỶỹỸỵỴ";
@@ -25,6 +27,25 @@ public class Text {
         }
         return stringBuilder.toString();
     }
-    
-    
+
+    public static String XMLGetTextValue(Element el, String tagName) {
+        return el.getElementsByTagName(tagName).item(0).getTextContent();
+    }
+
+    public static String capitalize(String text) {
+        boolean space = true;
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < text.length(); i++) {
+            char chr = text.charAt(i);
+            if (chr != '\t' && chr != '\n' && chr != ' ') {
+                if (space)
+                    stringBuilder.append(" ");
+                space = false;
+                stringBuilder.append(chr);
+            } else {
+                space = true;
+            }
+        }
+        return stringBuilder.toString();
+    }
 }

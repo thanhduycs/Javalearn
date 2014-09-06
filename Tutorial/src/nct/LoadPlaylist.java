@@ -1,16 +1,9 @@
 package nct;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -21,177 +14,115 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public class LoadPlaylist {
-	private String xmlData;
-	private ArrayList<String> lastListUrls = null;
-	public static int index = 0;
+    private String xmlURL;
+    private String dwPath;
+    private Exception lastError;
 
-	public String loadXML(String urlString) throws MalformedURLException,
-			IOException {
-		BufferedInputStream in = null;
-		FileOutputStream fout = null;
-		StringBuffer buff = new StringBuffer();
-		try {
-			in = new BufferedInputStream(new URL(urlString).openStream());
-			final byte data[] = new byte[1024];
-			int count;
-			while ((count = in.read(data, 0, 1024)) != -1) {
-				buff.append(new String(data, 0, count, "UTF-8"));
-			}
-		} finally {
-			if (in != null) {
-				in.close();
-			}
-			if (fout != null) {
-				fout.close();
-			}
-		}
-		return this.xmlData = buff.toString().trim();
-	}
+    private List<Song> fileLocations = null;
+    private static int index = 0;
 
-	public void parseXML2Urls() {
+    public void parseXML() throws XPathExpressionException,
+            ParserConfigurationException, SAXException, IOException {
+        DocumentBuilder dBuilder;
+        NodeList nodes;
 
-		try {
-			DocumentBuilderFactory dbFactory = DocumentBuilderFactory
-					.newInstance();
-			DocumentBuilder dBuilder;
-			dBuilder = dbFactory.newDocumentBuilder();
-			Document doc = dBuilder.parse(new ByteArrayInputStream(this.xmlData
-					.getBytes("UTF-8")));
-			doc.getDocumentElement().normalize();
-			NodeList nodes = doc.getElementsByTagName("location");
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        dBuilder = dbFactory.newDocumentBuilder();
+        Document doc = dBuilder.parse(xmlURL);
 
-			XPathFactory xpathFactory = XPathFactory.newInstance();
-			XPath xpath = xpathFactory.newXPath();
+        XPathFactory xpathFactory = XPathFactory.newInstance();
+        XPath xpath = xpathFactory.newXPath();
 
-			nodes = (NodeList) xpath.evaluate("//location", doc,
-					XPathConstants.NODESET);
+        nodes = (NodeList) xpath.evaluate("//track", doc,
+                XPathConstants.NODESET);
 
-			this.lastListUrls = new ArrayList<String>();
-			for (int i = 0; i < nodes.getLength(); i++) {
-				String location = nodes.item(i).getTextContent().trim();
-				this.lastListUrls.add(location);
-				System.out.println(location);
-			}
+        Song song;
+        this.fileLocations = new ArrayList<Song>();
+        for (int i = 0; i < nodes.getLength(); i++) {
+            Element elm = (Element) nodes.item(i);
+            song = new Song();
+            song.url = httpcom.Text.XMLGetTextValue(elm, "location").trim();
+            song.name = httpcom.Text.capitalize(
+                    httpcom.Text.XMLGetTextValue(elm, "title").trim());
+            song.singer = httpcom.Text.XMLGetTextValue(elm, "creator").trim();
+            if ("Đang Cập Nhật".compareToIgnoreCase(song.singer) != 0) {
+                song.name += "--" + song.singer;
+            }
+            this.fileLocations.add(song);
+            System.out.println(song.name);
+        }
+    }
 
-		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SAXException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (XPathExpressionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+    public void saveUrl(final Song song) {
+        String fileName = song.name
+                .replaceAll("\\&|/|\\\\|,|'|\"|\\(|\\)|\\[|\\]", " ").trim()
+                .replaceAll(" +", " ").replaceAll(" ", "-")
+                .replaceAll("-{3,}", "--").replaceAll("\\.-+", ".");
+      
+        String oldFilePath = String.format("%s/%02d.%s.mp3", dwPath, ++index,
+                fileName);
+        // httpcom.Http.saveUrlSafeIfNotExist(oldFilePath, urlString);
+        System.out.println(oldFilePath);
+    }
 
-	}
+    public void dowload() {
+        int failed = 0;
+        for (int i = 0; failed < 3 && i < fileLocations.size(); i++) {
+            try {
+                Song url = fileLocations.get(i);
+                saveUrl(url);
+                failed = Math.min(0, failed - 1);
+                // Thread.sleep(30*1000);
+            } catch (Exception e) {
+                e.printStackTrace();
+                setLastError(e);
+                failed++;
+            }
+        }
+    }
 
-	public void saveUrl(final String filename, final String urlString)
-			throws MalformedURLException, IOException {
-		BufferedInputStream in = null;
-		FileOutputStream fout = null;
-		try {
-			in = new BufferedInputStream(new URL(urlString).openStream());
-			fout = new FileOutputStream(filename);
+    public String getXmlURL() {
+        return xmlURL;
+    }
 
-			final byte data[] = new byte[1024];
-			int count;
-			while ((count = in.read(data, 0, 1024)) != -1) {
-				fout.write(data, 0, count);
-			}
-		} finally {
-			if (in != null) {
-				in.close();
-			}
-			if (fout != null) {
-				fout.close();
-			}
-		}
-	}
+    public void setXmlURL(String xmlURL) {
+        this.xmlURL = xmlURL;
+    }
 
-	public void saveUrl(final String urlString) throws MalformedURLException,
-			IOException {
-		final String OUTDIR = "C:\\Users\\T420\\Desktop\\mp3\\";
-		String s = urlString.substring(urlString.lastIndexOf('/') + 1).trim();
-		String oldFilePath = OUTDIR + String.format("%02d.", ++index) + s;
-		File newFile = new File(oldFilePath);
-		File oldFile = new File(OUTDIR + s);
-		boolean flag = newFile.exists();
-		if (oldFile.exists() && !flag) {
-			oldFile.renameTo(newFile);
-		} else if (!flag) {
-			saveUrl(oldFilePath, urlString);
-		}
-		System.out.println(oldFilePath);
-	}
+    public String getDownloadPath() {
+        return dwPath;
+    }
 
-	public void saveFromLastPlayList() {
-		for (String url : this.lastListUrls) {
-			try {
-				System.out.println(url);
-				saveUrl(url);
-				// Thread.sleep(30*1000);
-			} catch (MalformedURLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				// } catch (InterruptedException e) {
-				// // TODO Auto-generated catch block
-				// e.printStackTrace();
-			}
-		}
-	}
+    public void setDownloadPath(String dwPath) {
+        this.dwPath = dwPath;
+    }
 
-	public ArrayList<String> LoadListUrls() {
-		ArrayList<String> arraylist = new ArrayList<String>(200);
-		BufferedReader in = null;
-		try {
-			String filePath = "C:\\Users\\T420\\Desktop\\nhacquoctehay.xml";
-			in = new BufferedReader(new FileReader(filePath));
-			while (in.ready()) {
-				String line = in.readLine();
-				arraylist.add(line);
-			}
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			if (in != null) {
-				try {
-					in.close();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
-		return this.lastListUrls = arraylist;
-	}
+    public static void main(String[] args) throws MalformedURLException,
+            IOException, XPathExpressionException,
+            ParserConfigurationException, SAXException {
+        // String proxyHost = System.getProperty("http.proxyHost");
+        // System.setProperty("http.proxyHost", "hcm-proxy");
+        // System.setProperty("http.proxyPort", "8080");
+        System.setProperty("java.net.useSystemProxies", "true");
 
-	public static void main(String[] args) throws MalformedURLException,
-			IOException {
-		//String proxyHost = System.getProperty("http.proxyHost");
-		// System.setProperty("http.proxyHost", "hcm-proxy");
-		// System.setProperty("http.proxyPort", "8080");
-		System.setProperty("java.net.useSystemProxies", "true");
+        LoadPlaylist loader = new LoadPlaylist();
+        loader.setXmlURL("http://www.nhaccuatui.com/flash/xml?key2=d2d6669643222a091b653997f7056b1f");
+        loader.setDownloadPath(httpcom.Path.getDesktotPath("nct"));
+        loader.parseXML();
+        loader.dowload();
+    }
 
-		LoadPlaylist loader = new LoadPlaylist();
-		loader.loadXML("http://www.nhaccuatui.com/flash/xml?key2=e2806067ddd6ae211f3021c2d53b513f");
-		loader.parseXML2Urls();
-		// loader.LoadListUrls();
-		loader.saveFromLastPlayList();
-	}
+    public Exception getLastError() {
+        return lastError;
+    }
+
+    public void setLastError(Exception lastError) {
+        this.lastError = lastError;
+    }
 
 }

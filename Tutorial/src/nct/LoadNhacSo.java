@@ -75,7 +75,7 @@ public class LoadNhacSo {
     public String getFullSongPath(String songName, int index) {
         String dir = this.dwPath;
         String fileName = songName
-                .replaceAll("/|\\\\|,|'|\"|\\(|\\)|\\[|\\]", " ").trim()
+                .replaceAll("\\&|/|\\\\|,|'|\"|\\(|\\)|\\[|\\]", " ").trim()
                 .replaceAll(" +", " ").replaceAll(" ", "-")
                 .replaceAll("-{3,}", "--").replaceAll("\\.-+", ".");
         return String.format("%s/%02d.%s.mp3", dir, index + 1, fileName);
