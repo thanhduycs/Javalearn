@@ -1,7 +1,5 @@
 package codility.chap7;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
 
 public class MaxDistance2Integers {
@@ -14,6 +12,7 @@ public class MaxDistance2Integers {
         return 1;
     }
 
+    @SuppressWarnings("unused")
     @Test
     public void testCase1() throws Exception {
         int[] arr = { 20, 7, 8, 9, 10, 4, 5, 6, 1, 13, 11, 0 };

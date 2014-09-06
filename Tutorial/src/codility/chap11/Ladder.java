@@ -1,10 +1,9 @@
 package codility.chap11;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-@SuppressWarnings("unused")
 public class Ladder {
 
     public void printArr(int[] A, String caption) {

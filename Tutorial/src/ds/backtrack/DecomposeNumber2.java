@@ -1,7 +1,5 @@
 package ds.backtrack;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
 
 public class DecomposeNumber2 {

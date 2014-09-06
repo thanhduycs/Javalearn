@@ -1,7 +1,5 @@
 package ds.backtrack.eightqueen;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
 
 public class BTQueen2 {
