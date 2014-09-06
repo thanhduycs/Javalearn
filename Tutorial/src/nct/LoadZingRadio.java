@@ -192,6 +192,8 @@ public class LoadZingRadio {
 	}
 
 	public static void main(String[] args) {
+	    System.setProperty("java.net.useSystemProxies", "true");
+	    
 		final String desktopPath = System.getProperty("user.home") + "/Desktop";
 
 		final String xmlUrl = "http://radio.zing.vn/xml/radio/kHcHtLnadsAFmdayZvJybmLH?seq=1";
