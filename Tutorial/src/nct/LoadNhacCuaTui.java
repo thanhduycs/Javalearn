@@ -18,7 +18,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-public class LoadPlaylist {
+public class LoadNhacCuaTui {
     private String xmlURL;
     private String dwPath;
     private Exception lastError;
@@ -110,7 +110,7 @@ public class LoadPlaylist {
         // System.setProperty("http.proxyPort", "8080");
         System.setProperty("java.net.useSystemProxies", "true");
 
-        LoadPlaylist loader = new LoadPlaylist();
+        LoadNhacCuaTui loader = new LoadNhacCuaTui();
         loader.setXmlURL("http://www.nhaccuatui.com/flash/xml?key2=d2d6669643222a091b653997f7056b1f");
         loader.setDownloadPath(httpcom.Path.getDesktotPath("nct"));
         loader.parseXML();
