@@ -40,6 +40,7 @@ public final class Http {
             return readURL(urlString);
         } catch (Exception e) {
             lastError= e;
+            e.printStackTrace();
         }
         return null;
     }
@@ -74,6 +75,7 @@ public final class Http {
             return saveUrl(filename, urlString);
         } catch (Exception e) {
             lastError = e;
+            e.printStackTrace();
         }
         return 1;
     }
