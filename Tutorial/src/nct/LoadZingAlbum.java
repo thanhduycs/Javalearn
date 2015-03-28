@@ -47,8 +47,12 @@ public class LoadZingAlbum {
                 newSong.name = (String) jObjSong.get("title");
                 newSong.singer = (String)jObjSong.get("performer");
                 newSong.url = (String)jObjSong.get("source");
-                System.out.println(newSong.getSongNameInclueSinger());
-                this.songs.add(newSong);
+                String errorMessage = (String)jObjSong.get("errormessage");
+                if(errorMessage != null && errorMessage.trim().length() > 0) {
+                    System.out.println(newSong.getSongNameInclueSinger() + "\n~~> " + errorMessage);
+                } else {
+                    this.songs.add(newSong);
+                }
             }
         } catch (ParseException e) {
             // TODO Auto-generated catch block

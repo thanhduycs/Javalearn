@@ -16,9 +16,12 @@ public class SongDownloader {
         
         for (int i = 0; i < songs.size(); i++) {
             Song song = songs.get(i);
-            String songPath = String.format("%s\\%s.mp3", this.saveFolder, song.getSongNameInclueSinger());
+            String songPath = String.format("%s\\%02d.%s.mp3", 
+                    this.saveFolder, 
+                    i+1,
+                    song.getSongNameInclueSinger());
             if(!isDownload(song, songPath)) {
-                System.out.println(String.format("%s --> %s", song.getSongNameInclueSinger(), song.url));
+                System.out.println(String.format("%s\n--> %s", songPath, song.url));
                 comwrap.Http.saveUrlSafeIfNotExist(songPath, song.url);
             }
         }

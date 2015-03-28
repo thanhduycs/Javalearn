@@ -58,6 +58,10 @@ public final class Http {
             while ((count = in.read(data, 0, 1024)) != -1) {
                 fout.write(data, 0, count);
             }
+        }
+         catch (IOException  e) {
+            System.out.println("Error download file " + filename + " ==> " + e.getMessage());
+            throw e;
         } finally {
             if (in != null) {
                 in.close();
