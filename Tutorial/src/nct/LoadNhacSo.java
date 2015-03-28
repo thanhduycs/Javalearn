@@ -65,6 +65,7 @@ public class LoadNhacSo {
         Song song = new Song();
         song.name = getTextValue(songElement, "name");
         song.url = getTextValue(songElement, "mp3link");
+        song.singer = getTextValue(songElement, "artist");
         return song;
     }
 
@@ -72,12 +73,23 @@ public class LoadNhacSo {
         return el.getElementsByTagName(tagName).item(0).getTextContent();
     }
 
-    public String getFullSongPath(String songName, int index) {
+    public String getFullSongPath(Song song, int index) {
         String dir = this.dwPath;
-        String fileName = songName
-                .replaceAll("\\&|/|\\\\|,|'|\"|\\(|\\)|\\[|\\]", " ").trim()
-                .replaceAll(" +", " ").replaceAll(" ", "-")
-                .replaceAll("-{3,}", "--").replaceAll("\\.-+", ".");
+        String songName = song.getTruncSongName();
+        String songSinger = song.singer;
+        String fileName = (songName + "--" + songSinger);
+        char [] illegals = "~!@#$%^&*()_+|{}[]:;'\"\\/?,".toCharArray(); 
+        for(char c : illegals)
+        {
+            fileName = fileName.replace(c, ' ');
+        }
+        fileName = fileName.trim()
+            .replaceAll(" +", " ")
+            .replaceAll(" ", "-")
+            .replaceAll("-{3,}", "--")
+            .replaceAll("\\.-+", ".")
+            .replaceAll("^\\-+", "")
+            .replaceAll("\\-+$", "");
         return String.format("%s/%02d.%s.mp3", dir, index + 1, fileName);
     }
 
@@ -85,7 +97,7 @@ public class LoadNhacSo {
         int count = 0;
         for (int i = 0; i < songs.size(); i++) {
             Song song = songs.get(i);
-            String songPath = getFullSongPath(song.getTruncSongName(), i);
+            String songPath = getFullSongPath(song, i);
             double begin_time = System.currentTimeMillis();
             System.out.printf(">>>>>Fetch: %s\n", songPath);
             System.out.printf("     %s\n", song.url);
@@ -109,7 +121,7 @@ public class LoadNhacSo {
         System.setProperty("java.net.useSystemProxies", "true");
         
         LoadNhacSo lns = new LoadNhacSo();
-        lns.setURL("http://nhacso.net/flash/playlist/xnl/1/uid/X1pXVUNXbQAGAA==,WlpQUUNe,Xg==,1409973506&adsLink=http%3A%2F%2F180.148.142.153%2FCpx.aspx%3Fs%3D39%26r%3D0%26c%3D8%26p%3D604%26n%3D22806581467%26f%3D0%26fm%3D1&typePlayer=playlist&mAuto=true");
+        lns.setURL("http://nhacso.net/flash/playlist/xnl/1/uid/X1xVV0NcagYGAw==,W1lSU0Bd,Xg==,1423494477");
         lns.setDownloadPath(comwrap.Path.getDesktotPath("nhacso"));
         lns.run();
     }

@@ -49,6 +49,7 @@ public class LoadNhacCuaTui {
             song.url = comwrap.Text.XMLGetTextValue(elm, "location").trim();
             song.name = comwrap.Text.capitalize(
                     comwrap.Text.XMLGetTextValue(elm, "title").trim());
+            song.name = song.name.replaceAll("\\?", "");
             song.singer = comwrap.Text.XMLGetTextValue(elm, "creator").trim();
             if ("Đang Cập Nhật".compareToIgnoreCase(song.singer) != 0) {
                 song.name += "--" + song.singer;
@@ -66,7 +67,7 @@ public class LoadNhacCuaTui {
       
         String oldFilePath = String.format("%s/%02d.%s.mp3", dwPath, ++index,
                 fileName);
-        // httpcom.Http.saveUrlSafeIfNotExist(oldFilePath, urlString);
+        comwrap.Http.saveUrlSafeIfNotExist(oldFilePath.replace('/', '\\'), song.url);
         System.out.println(oldFilePath);
     }
 
@@ -111,8 +112,8 @@ public class LoadNhacCuaTui {
         System.setProperty("java.net.useSystemProxies", "true");
 
         LoadNhacCuaTui loader = new LoadNhacCuaTui();
-        loader.setXmlURL("http://www.nhaccuatui.com/flash/xml?key2=d2d6669643222a091b653997f7056b1f");
-        loader.setDownloadPath(comwrap.Path.getDesktotPath("nct"));
+        loader.setXmlURL("http://www.nhaccuatui.com/flash/xml?key2=4bb5edfcd6ad9b86857280b10e004db6");
+        loader.setDownloadPath(comwrap.Path.getDesktotPath("music\\nct_thap_nien_70s"));
         loader.parseXML();
         loader.dowload();
     }
